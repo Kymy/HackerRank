@@ -1,32 +1,25 @@
 import java.io.*;
-import java.math.*;
-import java.text.*;
 import java.util.*;
-import java.util.regex.*;
 
+/**
+ * O(4) space 
+ * O(2) time
+ * Complexity time and space: constant 
+ */
 public class TimeConversion {
 
     static String timeConversion(String s) {
-        String [] sections = s.split(":");
-        String hours = sections[0];
-        String minutes = sections[1];
-        String lastSection = sections[2];
-        String seconds = lastSection.charAt(0) + "" + lastSection.charAt(1);
-        String format = lastSection.charAt(2) + "" + lastSection.charAt(3);
-        String timeFormated = ""; 
-        int hoursNumber = Integer.parseInt(hours);
-        if (format.equals("AM")) {
-            if (hoursNumber == 12) {
-                hours = "00";
-            }
-            timeFormated = hours + ":" + minutes + ":" + seconds;
-        } else {
-            if (hoursNumber != 12) {
-                hoursNumber += 12;
-            }
-            timeFormated = hoursNumber + ":" + minutes + ":" + seconds;
-        }
-        return timeFormated;
+
+        int hours = Integer.parseInt(s.substring(0, 2));
+        String minutes = s.substring(3, 5);
+        String seconds = s.substring(6, 8);
+        String meridiam = s.substring(8, 10);
+        System.out.println(hours + ":" + minutes + ":" + seconds);
+
+        hours -= meridiam.equals("AM") && hours == 12 ? 12: 0;
+        hours += meridiam.equals("PM") && hours != 12 ? 12: 0;
+
+        return String.format("%02d", hours) + ":" + minutes + ":" + seconds;
     }
 
     public static void main(String[] args) throws IOException {
